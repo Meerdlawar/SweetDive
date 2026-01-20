@@ -185,7 +185,7 @@ export default function DashboardPage() {
           </div>
           <div className="p-6 grid grid-cols-2 gap-4">
             <Link
-              to="/customers/new"
+              to="/customers"
               className="flex flex-col items-center justify-center p-6 rounded-xl border-2 border-dashed border-surface-200 hover:border-primary-300 hover:bg-primary-50 transition-all group"
             >
               <Users className="w-8 h-8 text-surface-400 group-hover:text-primary-600 mb-2" />
@@ -194,7 +194,7 @@ export default function DashboardPage() {
               </span>
             </Link>
             <Link
-              to="/products/new"
+              to="/products"
               className="flex flex-col items-center justify-center p-6 rounded-xl border-2 border-dashed border-surface-200 hover:border-primary-300 hover:bg-primary-50 transition-all group"
             >
               <Package className="w-8 h-8 text-surface-400 group-hover:text-primary-600 mb-2" />
@@ -203,7 +203,7 @@ export default function DashboardPage() {
               </span>
             </Link>
             <Link
-              to="/orders/new"
+              to="/orders"
               className="flex flex-col items-center justify-center p-6 rounded-xl border-2 border-dashed border-surface-200 hover:border-primary-300 hover:bg-primary-50 transition-all group"
             >
               <ShoppingCart className="w-8 h-8 text-surface-400 group-hover:text-primary-600 mb-2" />
@@ -217,7 +217,7 @@ export default function DashboardPage() {
             >
               <TrendingUp className="w-8 h-8 text-surface-400 group-hover:text-primary-600 mb-2" />
               <span className="text-sm font-medium text-surface-600 group-hover:text-primary-700">
-                View Allergens
+                Manage Allergens
               </span>
             </Link>
           </div>
