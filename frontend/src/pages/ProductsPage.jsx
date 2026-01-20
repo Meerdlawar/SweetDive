@@ -31,10 +31,10 @@ export default function ProductsPage() {
   const toast = useToast();
 
   const [formData, setFormData] = useState({
-    name: '',
-    price: '',
+    product_name: '',
+    product_price: '',
     product_type: '',
-    suitability: '',
+    product_suitability: '',
     is_active: true,
     allergens: []
   });
@@ -87,7 +87,7 @@ export default function ProductsPage() {
     try {
       const data = {
         ...formData,
-        price: parseFloat(formData.price)
+        product_price: parseFloat(formData.product_price)
       };
       
       if (editingProduct) {
@@ -108,10 +108,10 @@ export default function ProductsPage() {
   const handleEdit = (product) => {
     setEditingProduct(product);
     setFormData({
-      name: product.name || '',
-      price: product.price || '',
+      product_name: product.product_name || '',
+      product_price: product.product_price || '',
       product_type: product.product_type || '',
-      suitability: product.suitability || '',
+      product_suitability: product.product_suitability || '',
       is_active: product.is_active !== false,
       allergens: product.allergens?.map(a => a.id) || []
     });
@@ -131,10 +131,10 @@ export default function ProductsPage() {
 
   const resetForm = () => {
     setFormData({
-      name: '',
-      price: '',
+      product_name: '',
+      product_price: '',
       product_type: '',
-      suitability: '',
+      product_suitability: '',
       is_active: true,
       allergens: []
     });
@@ -362,8 +362,8 @@ export default function ProductsPage() {
                 <label className="label">Product Name *</label>
                 <input
                   type="text"
-                  value={formData.name}
-                  onChange={(e) => setFormData({ ...formData, name: e.target.value })}
+                  value={formData.product_name}
+                  onChange={(e) => setFormData({ ...formData, product_name: e.target.value })}
                   className="input"
                   required
                 />
@@ -376,8 +376,8 @@ export default function ProductsPage() {
                     type="number"
                     step="0.01"
                     min="0"
-                    value={formData.price}
-                    onChange={(e) => setFormData({ ...formData, price: e.target.value })}
+                    value={formData.product_price}
+                    onChange={(e) => setFormData({ ...formData, product_price: e.target.value })}
                     className="input"
                     required
                   />
@@ -402,8 +402,8 @@ export default function ProductsPage() {
                 <div>
                   <label className="label">Suitability</label>
                   <select
-                    value={formData.suitability}
-                    onChange={(e) => setFormData({ ...formData, suitability: e.target.value })}
+                    value={formData.product_suitability}
+                    onChange={(e) => setFormData({ ...formData, product_suitability: e.target.value })}
                     className="select"
                   >
                     <option value="">None</option>

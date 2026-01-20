@@ -19,6 +19,7 @@ export default function AllergensPage() {
   const [editingAllergen, setEditingAllergen] = useState(null);
   const [deleteConfirm, setDeleteConfirm] = useState(null);
   const [selectedAllergen, setSelectedAllergen] = useState(null);
+  const [allergenTypes, setAllergenTypes] = useState([]);
   
   const toast = useToast();
 
@@ -29,7 +30,17 @@ export default function AllergensPage() {
 
   useEffect(() => {
     loadAllergens();
+    loadAllergenTypes();
   }, []);
+
+  const loadAllergenTypes = async () => {
+    try {
+      const response = await allergensAPI.getTypes();
+      setAllergenTypes(response.data);
+    } catch (error) {
+      console.error('Failed to load allergen types:', error);
+    }
+  };
 
   const loadAllergens = async () => {
     try {
@@ -261,14 +272,17 @@ export default function AllergensPage() {
             <form onSubmit={handleSubmit} className="p-6 space-y-4">
               <div>
                 <label className="label">Allergen Name *</label>
-                <input
-                  type="text"
+                <select
                   value={formData.allergen_name}
                   onChange={(e) => setFormData({ ...formData, allergen_name: e.target.value })}
-                  className="input"
-                  placeholder="e.g., Gluten, Dairy, Nuts"
+                  className="select"
                   required
-                />
+                >
+                  <option value="">Select allergen type...</option>
+                  {allergenTypes.map(type => (
+                    <option key={type.value} value={type.value}>{type.label}</option>
+                  ))}
+                </select>
               </div>
               <div>
                 <label className="label">Description</label>
