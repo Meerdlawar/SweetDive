@@ -47,7 +47,7 @@ export default function AllergensPage() {
     e.preventDefault();
     try {
       if (editingAllergen) {
-        await allergensAPI.update(editingAllergen.id, formData);
+        await allergensAPI.update(editingAllergen.allergen_id, formData);
         toast.success('Allergen updated successfully');
       } else {
         await allergensAPI.create(formData);
@@ -178,7 +178,7 @@ export default function AllergensPage() {
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
           {filteredAllergens.map((allergen) => (
             <div
-              key={allergen.id}
+              key={allergen.allergen_id}
               className="card-hover p-5 group cursor-pointer"
               onClick={() => setSelectedAllergen(allergen)}
             >

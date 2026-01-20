@@ -41,7 +41,7 @@ export default function OrdersPage() {
   const [formData, setFormData] = useState({
     customer: '',
     status: 'pending',
-    payment_method: 'cash',
+    method_of_payment: 'cash',
     order_due: '',
     comments: '',
     orderProducts: []
@@ -98,11 +98,12 @@ export default function OrdersPage() {
       const orderData = {
         customer: parseInt(formData.customer),
         status: formData.status,
-        payment_method: formData.payment_method,
+        method_of_payment: formData.method_of_payment,
+        order_placed: new Date().toISOString(),
         order_due: formData.order_due || null,
         comments: formData.comments,
         products: formData.orderProducts.map(op => ({
-          product_id: op.product,
+          product: op.product,
           quantity: op.quantity
         }))
       };
@@ -141,7 +142,7 @@ export default function OrdersPage() {
     setFormData({
       customer: order.customer || '',
       status: order.status || 'pending',
-      payment_method: order.payment_method || 'cash',
+      method_of_payment: order.method_of_payment || 'cash',
       order_due: order.order_due ? order.order_due.slice(0, 16) : '',
       comments: order.comments || '',
       orderProducts
@@ -174,7 +175,7 @@ export default function OrdersPage() {
     setFormData({
       customer: '',
       status: 'pending',
-      payment_method: 'cash',
+      method_of_payment: 'cash',
       order_due: '',
       comments: '',
       orderProducts: []
@@ -336,7 +337,7 @@ export default function OrdersPage() {
                       </td>
                       <td>
                         <span className="text-surface-600">
-                          {order.payment_method_display || order.payment_method}
+                          {order.method_of_payment_display || order.method_of_payment}
                         </span>
                       </td>
                       <td>
@@ -466,8 +467,8 @@ export default function OrdersPage() {
                 <div>
                   <label className="label">Payment Method</label>
                   <select
-                    value={formData.payment_method}
-                    onChange={(e) => setFormData({ ...formData, payment_method: e.target.value })}
+                    value={formData.method_of_payment}
+                    onChange={(e) => setFormData({ ...formData, method_of_payment: e.target.value })}
                     className="select"
                   >
                     {paymentMethods.map(method => (
@@ -610,7 +611,7 @@ export default function OrdersPage() {
               </div>
               <div className="flex items-center justify-between">
                 <span className="text-surface-500">Payment</span>
-                <span>{selectedOrder.payment_method_display}</span>
+                <span>{selectedOrder.method_of_payment_display}</span>
               </div>
               <div className="flex items-center justify-between">
                 <span className="text-surface-500">Placed</span>

@@ -62,44 +62,53 @@ class StaffRegistrationSerializer(serializers.ModelSerializer):
 
 class CustomerSerializer(serializers.ModelSerializer):
     """Serializer for Customer model"""
+    id = serializers.IntegerField(source='customer_id', read_only=True)
+    
     class Meta:
         model = Customer
         fields = [
-            'customer_id', 'prefix', 'first_name', 'last_name', 
+            'id', 'customer_id', 'prefix', 'first_name', 'last_name', 
             'phone_number', 'email', 'subfix', 'full_name',
             'created_at', 'updated_at'
         ]
-        read_only_fields = ['customer_id', 'full_name', 'created_at', 'updated_at']
+        read_only_fields = ['id', 'customer_id', 'full_name', 'created_at', 'updated_at']
 
 
 class CustomerListSerializer(serializers.ModelSerializer):
     """Simplified serializer for customer dropdowns/lists"""
+    id = serializers.IntegerField(source='customer_id', read_only=True)
+    name = serializers.CharField(source='full_name', read_only=True)
+    
     class Meta:
         model = Customer
-        fields = ['customer_id', 'full_name']
+        fields = ['id', 'customer_id', 'name', 'full_name']
 
 
 class ProductSerializer(serializers.ModelSerializer):
     """Serializer for Product model"""
+    id = serializers.IntegerField(source='product_id', read_only=True)
     product_type_display = serializers.CharField(source='get_product_type_display', read_only=True)
     product_suitability_display = serializers.CharField(source='get_product_suitability_display', read_only=True)
     
     class Meta:
         model = Product
         fields = [
-            'product_id', 'product_name', 'product_price', 
+            'id', 'product_id', 'product_name', 'product_price', 
             'product_type', 'product_type_display',
             'product_suitability', 'product_suitability_display',
             'is_active', 'created_at', 'updated_at'
         ]
-        read_only_fields = ['product_id', 'created_at', 'updated_at']
+        read_only_fields = ['id', 'product_id', 'created_at', 'updated_at']
 
 
 class ProductListSerializer(serializers.ModelSerializer):
     """Simplified serializer for product dropdowns/lists"""
+    id = serializers.IntegerField(source='product_id', read_only=True)
+    name = serializers.CharField(source='product_name', read_only=True)
+    
     class Meta:
         model = Product
-        fields = ['product_id', 'product_name', 'product_price']
+        fields = ['id', 'product_id', 'name', 'product_name', 'product_price']
 
 
 class OrderProductSerializer(serializers.ModelSerializer):
@@ -134,6 +143,7 @@ class OrderProductCreateSerializer(serializers.ModelSerializer):
 
 class OrderSerializer(serializers.ModelSerializer):
     """Serializer for Order model with nested OrderProducts"""
+    id = serializers.IntegerField(source='order_id', read_only=True)
     order_products = OrderProductSerializer(many=True, read_only=True)
     customer_name = serializers.CharField(source='customer.full_name', read_only=True)
     method_of_payment_display = serializers.CharField(source='get_method_of_payment_display', read_only=True)
@@ -142,13 +152,13 @@ class OrderSerializer(serializers.ModelSerializer):
     class Meta:
         model = Order
         fields = [
-            'order_id', 'customer', 'customer_name', 'total_price',
+            'id', 'order_id', 'customer', 'customer_name', 'total_price',
             'method_of_payment', 'method_of_payment_display',
             'order_placed', 'order_due', 'comments',
             'status', 'status_display', 'order_products',
             'created_at', 'updated_at'
         ]
-        read_only_fields = ['order_id', 'created_at', 'updated_at']
+        read_only_fields = ['id', 'order_id', 'created_at', 'updated_at']
 
 
 class OrderCreateSerializer(serializers.ModelSerializer):
@@ -217,6 +227,7 @@ class OrderCreateSerializer(serializers.ModelSerializer):
 
 class AllergenInfoSerializer(serializers.ModelSerializer):
     """Serializer for AllergenInfo model"""
+    id = serializers.IntegerField(source='allergen_id', read_only=True)
     allergen_name_display = serializers.CharField(source='get_allergen_name_display', read_only=True)
     products = ProductListSerializer(many=True, read_only=True)
     product_ids = serializers.PrimaryKeyRelatedField(
@@ -229,7 +240,7 @@ class AllergenInfoSerializer(serializers.ModelSerializer):
     class Meta:
         model = AllergenInfo
         fields = [
-            'allergen_id', 'allergen_name', 'allergen_name_display',
+            'id', 'allergen_id', 'allergen_name', 'allergen_name_display',
             'description', 'products', 'product_ids'
         ]
-        read_only_fields = ['allergen_id']
+        read_only_fields = ['id', 'allergen_id']

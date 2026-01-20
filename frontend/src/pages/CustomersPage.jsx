@@ -32,7 +32,7 @@ export default function CustomersPage() {
     prefix: '',
     first_name: '',
     last_name: '',
-    phone: '',
+    phone_number: '',
     email: '',
     subfix: ''
   });
@@ -84,7 +84,7 @@ export default function CustomersPage() {
       prefix: customer.prefix || '',
       first_name: customer.first_name || '',
       last_name: customer.last_name || '',
-      phone: customer.phone || '',
+      phone_number: customer.phone_number || '',
       email: customer.email || '',
       subfix: customer.subfix || ''
     });
@@ -107,7 +107,7 @@ export default function CustomersPage() {
       prefix: '',
       first_name: '',
       last_name: '',
-      phone: '',
+      phone_number: '',
       email: '',
       subfix: ''
     });
@@ -335,8 +335,8 @@ export default function CustomersPage() {
                 <label className="label">Phone</label>
                 <input
                   type="tel"
-                  value={formData.phone}
-                  onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
+                  value={formData.phone_number}
+                  onChange={(e) => setFormData({ ...formData, phone_number: e.target.value })}
                   className="input"
                   placeholder="+44 7XXX XXXXXX"
                 />
