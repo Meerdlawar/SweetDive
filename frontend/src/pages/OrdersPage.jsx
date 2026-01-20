@@ -63,10 +63,13 @@ export default function OrdersPage() {
         customersAPI.getSimpleList(),
         productsAPI.getSimpleList()
       ]);
-      setStatuses(statusesRes.data);
-      setPaymentMethods(paymentRes.data);
-      setCustomers(customersRes.data);
-      setProducts(productsRes.data);
+      const normalize = (data) => Array.isArray(data)
+        ? data
+        : Object.entries(data || {}).map(([value, label]) => ({ value, label }));
+      setStatuses(normalize(statusesRes.data));
+      setPaymentMethods(normalize(paymentRes.data));
+      setCustomers(customersRes.data?.results || customersRes.data || []);
+      setProducts(productsRes.data?.results || productsRes.data || []);
     } catch (error) {
       console.error('Failed to load initial data:', error);
     }
@@ -131,7 +134,7 @@ export default function OrdersPage() {
       const response = await ordersAPI.getProducts(order.id);
       orderProducts = response.data.map(op => ({
         product: op.product.id,
-        product_name: op.product.name,
+        product_name: op.product.product_name || op.product.name,
         quantity: op.quantity,
         unit_price: op.unit_price
       }));
@@ -203,8 +206,8 @@ export default function OrdersPage() {
       if (field === 'product') {
         const product = products.find(p => p.id === parseInt(value));
         if (product) {
-          updated[index].product_name = product.name;
-          updated[index].unit_price = product.price;
+          updated[index].product_name = product.product_name || product.name;
+          updated[index].unit_price = product.product_price;
         }
       }
       
@@ -222,7 +225,7 @@ export default function OrdersPage() {
   const calculateTotal = () => {
     return formData.orderProducts.reduce((total, op) => {
       const product = products.find(p => p.id === parseInt(op.product));
-      return total + (product ? product.price * op.quantity : 0);
+      return total + (product ? product.product_price * op.quantity : 0);
     }, 0);
   };
 
@@ -515,7 +518,7 @@ export default function OrdersPage() {
                             <option value="">Select product...</option>
                             {products.map(product => (
                               <option key={product.id} value={product.id}>
-                                {product.name} - £{product.price}
+                                  {product.product_name || product.name} - £{product.product_price ?? product.price}
                               </option>
                             ))}
                           </select>

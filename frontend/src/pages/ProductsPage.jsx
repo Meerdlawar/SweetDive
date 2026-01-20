@@ -54,9 +54,12 @@ export default function ProductsPage() {
         productsAPI.getSuitabilities(),
         allergensAPI.getAll()
       ]);
-      setProductTypes(typesRes.data);
-      setSuitabilities(suitabilitiesRes.data);
-      setAllergens(allergensRes.data.results || allergensRes.data);
+      const normalize = (data) => Array.isArray(data)
+        ? data
+        : Object.entries(data || {}).map(([value, label]) => ({ value, label }));
+      setProductTypes(normalize(typesRes.data));
+      setSuitabilities(normalize(suitabilitiesRes.data));
+      setAllergens(allergensRes.data?.results || allergensRes.data || []);
     } catch (error) {
       console.error('Failed to load initial data:', error);
     }
@@ -87,7 +90,9 @@ export default function ProductsPage() {
     try {
       const data = {
         ...formData,
-        product_price: parseFloat(formData.product_price)
+        product_price: parseFloat(formData.product_price),
+        product_type: formData.product_type || 'other',
+        product_suitability: formData.product_suitability || 'none'
       };
       
       if (editingProduct) {

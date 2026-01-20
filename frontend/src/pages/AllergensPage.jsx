@@ -36,7 +36,10 @@ export default function AllergensPage() {
   const loadAllergenTypes = async () => {
     try {
       const response = await allergensAPI.getTypes();
-      setAllergenTypes(response.data);
+      const types = Array.isArray(response.data)
+        ? response.data
+        : Object.entries(response.data || {}).map(([value, label]) => ({ value, label }));
+      setAllergenTypes(types);
     } catch (error) {
       console.error('Failed to load allergen types:', error);
     }
