@@ -4,9 +4,13 @@ Django settings for Record Management System.
 
 from pathlib import Path
 import os
+from dotenv import load_dotenv
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
+
+# Load environment variables from .env file
+load_dotenv(BASE_DIR / '.env')
 
 
 # Quick-start development settings - unsuitable for production
@@ -130,6 +134,9 @@ REST_FRAMEWORK = {
 }
 
 
-# CORS settings
-CORS_ALLOW_ALL_ORIGINS = True
+# CORS settings - restrict to specific origins in production
+CORS_ALLOWED_ORIGINS = os.environ.get(
+    'CORS_ALLOWED_ORIGINS',
+    'http://localhost:3000,http://localhost:5173'
+).split(',')
 CORS_ALLOW_CREDENTIALS = True

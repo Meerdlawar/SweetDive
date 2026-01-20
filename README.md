@@ -14,6 +14,7 @@ A modern full-stack web application for managing customers, products, orders, an
 ## Tech Stack
 
 ### Frontend
+
 - React 18 with Vite
 - React Router v6 for navigation
 - Tailwind CSS for styling
@@ -22,6 +23,7 @@ A modern full-stack web application for managing customers, products, orders, an
 - date-fns for date formatting
 
 ### Backend
+
 - Django 4.2+
 - Django REST Framework
 - PostgreSQL (with SQLite fallback for development)
@@ -69,49 +71,66 @@ record-management-system/
 ### Backend Setup
 
 1. Navigate to the backend directory:
+
    ```bash
    cd backend
    ```
 
 2. Create a virtual environment:
+
    ```bash
    python -m venv venv
    source venv/bin/activate  # On Windows: venv\Scripts\activate
    ```
 
 3. Install dependencies:
+
    ```bash
    pip install -r requirements.txt
    ```
 
 4. Create environment file:
+
    ```bash
    cp .env.example .env
    ```
 
-5. Configure your `.env` file:
+5. Configure your `.env` file for development (SQLite):
+
    ```
-   # For SQLite (development)
+   # Django Configuration
+   DEBUG=true
+   DJANGO_SECRET_KEY=your-secret-key-here-change-this-in-production
+
+   # Database - Use SQLite for development
    USE_SQLITE=true
-   
-   # For PostgreSQL (production)
+
+   # CORS Configuration
+   CORS_ALLOWED_ORIGINS=http://localhost:3000,http://localhost:5173
+   ```
+
+   Or for production (PostgreSQL):
+
+   ```
+   DEBUG=false
+   DJANGO_SECRET_KEY=your-production-secret-key
    USE_SQLITE=false
-   DB_NAME=recordms
+   DB_NAME=record_management_db
    DB_USER=your_username
    DB_PASSWORD=your_password
    DB_HOST=localhost
    DB_PORT=5432
-   
-   SECRET_KEY=your-secret-key-here
-   DEBUG=true
+   CORS_ALLOWED_ORIGINS=https://yourdomain.com
    ```
 
 6. Run migrations:
+
    ```bash
    python manage.py migrate
    ```
 
 7. Create a superuser:
+
    ```bash
    python manage.py createsuperuser
    ```
@@ -126,11 +145,13 @@ The backend API will be available at `http://localhost:8000/api/`
 ### Frontend Setup
 
 1. Navigate to the frontend directory:
+
    ```bash
    cd frontend
    ```
 
 2. Install dependencies:
+
    ```bash
    npm install
    ```
@@ -145,12 +166,14 @@ The frontend will be available at `http://localhost:3000/`
 ## API Endpoints
 
 ### Authentication
+
 - `POST /api/auth/login/` - Login
 - `POST /api/auth/logout/` - Logout
 - `POST /api/auth/register/` - Register new user
 - `GET /api/auth/me/` - Get current user
 
 ### Customers
+
 - `GET /api/customers/` - List customers
 - `POST /api/customers/` - Create customer
 - `GET /api/customers/{id}/` - Get customer
@@ -159,6 +182,7 @@ The frontend will be available at `http://localhost:3000/`
 - `GET /api/customers/list_simple/` - Simple list for dropdowns
 
 ### Products
+
 - `GET /api/products/` - List products
 - `POST /api/products/` - Create product
 - `GET /api/products/{id}/` - Get product
@@ -168,6 +192,7 @@ The frontend will be available at `http://localhost:3000/`
 - `GET /api/products/suitabilities/` - Get suitability options
 
 ### Orders
+
 - `GET /api/orders/` - List orders
 - `POST /api/orders/` - Create order
 - `GET /api/orders/{id}/` - Get order
@@ -179,6 +204,7 @@ The frontend will be available at `http://localhost:3000/`
 - `GET /api/orders/statuses/` - Get order statuses
 
 ### Allergens
+
 - `GET /api/allergens/` - List allergens
 - `POST /api/allergens/` - Create allergen
 - `GET /api/allergens/{id}/` - Get allergen
@@ -186,11 +212,13 @@ The frontend will be available at `http://localhost:3000/`
 - `DELETE /api/allergens/{id}/` - Delete allergen
 
 ### Dashboard
+
 - `GET /api/dashboard/stats/` - Get dashboard statistics
 
 ## Default Data Models
 
 ### Customer
+
 - Prefix (Mr, Mrs, Dr, etc.)
 - First Name
 - Last Name
@@ -199,6 +227,7 @@ The frontend will be available at `http://localhost:3000/`
 - Suffix
 
 ### Product
+
 - Name
 - Price
 - Product Type (food, beverage, dessert, etc.)
@@ -207,6 +236,7 @@ The frontend will be available at `http://localhost:3000/`
 - Allergens (many-to-many)
 
 ### Order
+
 - Customer
 - Total Price
 - Payment Method
@@ -217,6 +247,7 @@ The frontend will be available at `http://localhost:3000/`
 - Products (through OrderProduct)
 
 ### Allergen
+
 - Name
 - Description
 - Products (many-to-many)
@@ -226,12 +257,14 @@ The frontend will be available at `http://localhost:3000/`
 ### Running Tests
 
 Backend:
+
 ```bash
 cd backend
 python manage.py test
 ```
 
 Frontend:
+
 ```bash
 cd frontend
 npm run test
@@ -240,6 +273,7 @@ npm run test
 ### Building for Production
 
 Frontend:
+
 ```bash
 cd frontend
 npm run build
@@ -250,21 +284,23 @@ The built files will be in `frontend/dist/`
 ### Environment Variables
 
 #### Backend (.env)
-| Variable | Description | Default |
-|----------|-------------|---------|
-| SECRET_KEY | Django secret key | - |
-| DEBUG | Debug mode | false |
-| USE_SQLITE | Use SQLite instead of PostgreSQL | false |
-| DB_NAME | PostgreSQL database name | recordms |
-| DB_USER | PostgreSQL user | - |
-| DB_PASSWORD | PostgreSQL password | - |
-| DB_HOST | PostgreSQL host | localhost |
-| DB_PORT | PostgreSQL port | 5432 |
+
+| Variable    | Description                      | Default   |
+| ----------- | -------------------------------- | --------- |
+| SECRET_KEY  | Django secret key                | -         |
+| DEBUG       | Debug mode                       | false     |
+| USE_SQLITE  | Use SQLite instead of PostgreSQL | false     |
+| DB_NAME     | PostgreSQL database name         | recordms  |
+| DB_USER     | PostgreSQL user                  | -         |
+| DB_PASSWORD | PostgreSQL password              | -         |
+| DB_HOST     | PostgreSQL host                  | localhost |
+| DB_PORT     | PostgreSQL port                  | 5432      |
 
 #### Frontend (.env)
-| Variable | Description | Default |
-|----------|-------------|---------|
-| VITE_API_URL | Backend API URL | /api |
+
+| Variable     | Description     | Default |
+| ------------ | --------------- | ------- |
+| VITE_API_URL | Backend API URL | /api    |
 
 ## License
 
